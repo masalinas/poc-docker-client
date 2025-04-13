@@ -23,7 +23,7 @@ public class DockerClientConfig {
 	final int MAX_CONNECTIONS = 100;
 	final int CONNECTION_TIMEOUT = 30;
 	final int RESPONSE_TIMEOUT = 45;
-	
+
     @Bean
 	public DockerClient getDockerClient() throws IOException {
     	DefaultDockerClientConfig config = DefaultDockerClientConfig.createDefaultConfigBuilder()
@@ -32,12 +32,12 @@ public class DockerClientConfig {
                 //.withDockerCertPath("/home/user/.docker")
     			//.withApiVersion("1.41")
                 //.withDockerTlsVerify(true)
-    		    .withRegistryUsername("gsdpi")
-    		    .withRegistryPassword("!Thingtrack2010")
-    		    .withRegistryEmail("UO34525@uniovi.es")
-    		    .withRegistryUrl("https://index.docker.io/v1/")
+    		    .withRegistryUsername("<USERNAME>")
+    		    .withRegistryPassword("<PASSWORD>")
+    		    .withRegistryEmail("<EMAIL>")
+    		    .withRegistryUrl("<HOST>")
     		.build();
-    	
+
     	DockerHttpClient httpClient = new ApacheDockerHttpClient.Builder()
     		    .dockerHost(config.getDockerHost())
     		    .sslConfig(config.getSSLConfig())
@@ -45,7 +45,7 @@ public class DockerClientConfig {
     		    .connectionTimeout(Duration.ofSeconds(CONNECTION_TIMEOUT))
     		    .responseTimeout(Duration.ofSeconds(RESPONSE_TIMEOUT))
     		.build();
-    	
+
 		if (Arrays.asList(env.getActiveProfiles()).contains("avib") )
 			return DockerClientImpl.getInstance(config, httpClient);
 		else
