@@ -22,9 +22,9 @@ public class DockerClientConfig {
 	public DockerClient getDockerClient() throws IOException {
     	DefaultDockerClientConfig config = DefaultDockerClientConfig.createDefaultConfigBuilder()
     			.withDockerHost("unix:///var/run/docker.sock")  // Local Docker daemon (Linux/macOS)
+    			//.withApiVersion("1.41")    			
                 //.withDockerHost("tcp://localhost:2375")       // Use for Docker Desktop (Windows or remote Docker)
                 //.withDockerCertPath("/home/user/.docker")
-    			//.withApiVersion("1.41")
                 //.withDockerTlsVerify(true)
     		    .withRegistryUsername("gsdpi")
     		    .withRegistryPassword("!Thingtrack2010")
