@@ -105,4 +105,20 @@ public class JobService {
 		
 		return logs.toString();
 	}	
+	
+	public void removeJob(String jobId) {		
+		try {	     
+			dockerConfig.getDockerClient().removeContainerCmd(jobId)
+				.withForce(true)
+				.exec();   
+        } catch (DockerException exception) {
+        	log.error(exception.getStackTrace().toString());    
+        	
+        	throw exception;
+        } catch (Exception exception) {
+        	log.error("Unexpected error: " + exception.getMessage());
+        	
+        	throw new RuntimeException("Failed to read logs: " + exception.getMessage(), exception);
+        }	
+	}
 }

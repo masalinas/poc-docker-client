@@ -61,4 +61,16 @@ public class JobController {
 			
 		return new ResponseEntity<String>(result, HttpStatus.OK);			
 	}
+	
+	@Operation(summary = "Remove job By id", description = "Remove job By id")
+	@DeleteMapping("/{jobId}")	
+	public ResponseEntity<Void> removeJob(
+			@Parameter(description = "The job id")
+			@PathVariable String jobId) {
+		log.debug("removeJob job");
+		
+		jobService.removeJob(jobId);
+			
+		return new ResponseEntity<Void>(HttpStatus.OK);			
+	}	
 }
