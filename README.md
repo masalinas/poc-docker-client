@@ -1,2 +1,2 @@
 # Description
-PoC Docker Client from SpringBoot service
+PoC SpringBoot Docker Client microservice
