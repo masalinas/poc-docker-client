@@ -32,10 +32,10 @@ public class DockerClientConfig {
                 //.withDockerCertPath("/home/user/.docker")
     			//.withApiVersion("1.41")
                 //.withDockerTlsVerify(true)
-    		    .withRegistryUsername("<USERNAME>")
-    		    .withRegistryPassword("<PASSWORD>")
-    		    .withRegistryEmail("<EMAIL>")
-    		    .withRegistryUrl("<HOST>")
+    		    .withRegistryUsername("gsdpi")
+    		    .withRegistryPassword("!Thingtrack2010")
+    		    .withRegistryEmail("UO34525@uniovi.es")
+    		    .withRegistryUrl("https://index.docker.io/v1/")
     		.build();
 
     	DockerHttpClient httpClient = new ApacheDockerHttpClient.Builder()
