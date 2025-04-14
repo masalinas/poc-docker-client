@@ -32,7 +32,7 @@ public class JobService {
         } catch (DockerException exception) {
         	log.error(exception.getStackTrace().toString());          
         } catch (Exception exception) {
-        	log.error("Unexpected error: " + exception.getMessage());
+        	log.error("Unexpected error xxx: " + exception.getMessage());
         }
 		
 		return null;		
@@ -92,16 +92,11 @@ public class JobService {
 	                public void onNext(Frame frame) {
 	                	logs.append(new String(frame.getPayload()));
 	                }
-
-	                @Override
-	                public void onError(Throwable throwable) {
-	                 	logs.append("Error while reading logs: " + throwable.getMessage());
-	                }
 	            }).awaitCompletion();          
         } catch (DockerException exception) {
         	log.error(exception.getStackTrace().toString());    
         	
-        	throw new RuntimeException("Docker exception to read logs: " + exception.getMessage(), exception);
+        	throw exception;
         } catch (Exception exception) {
         	log.error("Unexpected error: " + exception.getMessage());
         	
