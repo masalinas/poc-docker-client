@@ -2,12 +2,9 @@ package io.oferto.poc_docker_client.configure;
 
 import java.io.IOException;
 import java.time.Duration;
-import java.util.Arrays;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
@@ -17,9 +14,6 @@ import com.github.dockerjava.transport.DockerHttpClient;
 
 @Configuration
 public class DockerClientConfig {
-	@Autowired
-	Environment env;
-
 	final int MAX_CONNECTIONS = 100;
 	final int CONNECTION_TIMEOUT = 30;
 	final int RESPONSE_TIMEOUT = 45;
@@ -46,9 +40,6 @@ public class DockerClientConfig {
     		    .responseTimeout(Duration.ofSeconds(RESPONSE_TIMEOUT))
     		.build();
 
-		if (Arrays.asList(env.getActiveProfiles()).contains("avib") )
-			return DockerClientImpl.getInstance(config, httpClient);
-		else
-			return DockerClientImpl.getInstance(config, httpClient);
+		return DockerClientImpl.getInstance(config, httpClient);
 	}
 }
