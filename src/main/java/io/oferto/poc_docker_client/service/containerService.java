@@ -9,13 +9,11 @@ import org.springframework.stereotype.Service;
 
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.async.ResultCallback;
-import com.github.dockerjava.api.async.ResultCallback.Adapter;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.exception.DockerException;
 import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.ExposedPort;
 import com.github.dockerjava.api.model.Ports;
-import com.github.dockerjava.api.model.PullResponseItem;
 
 import io.oferto.poc_docker_client.dto.ContainerDto;
 import io.oferto.poc_docker_client.dto.ContainerPortDto;
@@ -30,25 +28,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @AllArgsConstructor
 @Service
-public class containerService {
+public class ContainerService {
 	private final DockerClient dockerClient;
-	
-	public Adapter<PullResponseItem> pullImage(String imageName, String imageVersion) {
-		Adapter<PullResponseItem> pullResponseItem = null;
-		
-		try {	        
-			pullResponseItem = dockerClient
-					.pullImageCmd(imageName + ":" + imageVersion)
-		            		.start();
-        } catch (DockerException exception) {
-        	log.error(exception.getStackTrace().toString());          
-        } catch (Exception exception) {
-        	log.error("Unexpected error: " + exception.getMessage());
-        }	
-		
-		return pullResponseItem;
-	}
-	
+
 	public List<Container> getContainers(boolean showAll) {
 		try {	        
 			return dockerClient.listContainersCmd()

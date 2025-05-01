@@ -11,7 +11,7 @@ import com.github.dockerjava.api.model.Container;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import io.oferto.poc_docker_client.dto.ContainerDto;
-import io.oferto.poc_docker_client.service.containerService;
+import io.oferto.poc_docker_client.service.ContainerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 
@@ -19,9 +19,9 @@ import io.swagger.v3.oas.annotations.Parameter;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("containers")
-public class containerController {
-	private final containerService containerService;
-	
+public class ContainerController {
+	private final ContainerService containerService;
+		
 	@Operation(summary = "List all containers", description = "Returns all containers")
 	@GetMapping	
 	public ResponseEntity<List<Container>> getContainers(
