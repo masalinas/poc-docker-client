@@ -46,6 +46,8 @@ public class ContainerService {
 	}	
 	
 	public Container getContainerByName(String containerName) {
+		Map<String, Object> result = new HashMap<>();
+		
 		try {	        
 	        List<Container> containers = dockerClient.listContainersCmd()
 	                .withShowAll(true)  // include stopped containers
@@ -58,14 +60,18 @@ public class ContainerService {
 	                	log.info("Found container ID: " + container.getId());
 	                	log.info("Status: " + container.getStatus());
 	                    
-	                	return container;
+	                	result.put("info", container);
 	                }
 	            }
 	        }
         } catch (DockerException exception) {
-        	log.error(exception.getStackTrace().toString());          
+        	log.error(exception.getStackTrace().toString());
+        	
+        	result.put("error", exception.getMessage()); 
         } catch (Exception exception) {
         	log.error("Unexpected error: " + exception.getMessage());
+        	
+        	result.put("error", exception.getMessage()); 
         }
 		
 		return null;		
@@ -74,10 +80,18 @@ public class ContainerService {
 	public Object submitContainer(ContainerDto containerDto) {
 		Map<String, String> result = new HashMap<>();
 		
-		try {	        
+		try {	   
+			// STEP01: pull the image first if not exist and wait for it
+			dockerClient
+					.pullImageCmd(containerDto.getImageName() + ":" + (containerDto.getImageVersion() != null ? containerDto.getImageVersion() : "latest"))
+		            		.start()
+		            		.awaitCompletion();
+			
+			// STEP012: run the image
 			HostConfig hostConfig = HostConfig.newHostConfig()
 					.withAutoRemove(containerDto.getWithAutoRemove());
 			
+
 			List<ExposedPort> exposedPorts = new ArrayList<ExposedPort>();
 			if (containerDto.getPublishPorts().size() > 0) {
 				Ports portBindings = new Ports();
