@@ -50,10 +50,10 @@ public class JobController {
 		return new ResponseEntity<Object>(result, HttpStatus.OK);			
 	}	
 	
-	@Operation(summary = "Get all job logs", description = "Get all job logs")
+	@Operation(summary = "Get all job logs by Id", description = "Get all job logs by Id")
 	@GetMapping("/{jobId}")	
 	public ResponseEntity<String> getLogs(
-			@Parameter(description = "The job id")
+			@Parameter(description = "The job Id")
 			@PathVariable String jobId) {
 		log.debug("getLogs job");
 		
@@ -62,10 +62,10 @@ public class JobController {
 		return new ResponseEntity<String>(result, HttpStatus.OK);			
 	}
 	
-	@Operation(summary = "Remove job By id", description = "Remove job By id")
+	@Operation(summary = "Remove job By id", description = "Remove job By Id")
 	@DeleteMapping("/{jobId}")	
 	public ResponseEntity<Void> removeJob(
-			@Parameter(description = "The job id")
+			@Parameter(description = "The job Id")
 			@PathVariable String jobId) {
 		log.debug("removeJob job");
 		

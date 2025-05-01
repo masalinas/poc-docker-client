@@ -33,7 +33,7 @@ public class OpenAPIConfig {
 		Info info = new Info().title("Container jobs API")
 				.version("1.0.0")
 				.contact(contact)
-				.description("This API exposes endpoints to manage container jobs.")
+				.description("This API exposes endpoints to manage Docker jobs.")
 				.license(mitLicense);
 		
 		return new OpenAPI().info(info).servers(List.of(devServer, prodServer));
