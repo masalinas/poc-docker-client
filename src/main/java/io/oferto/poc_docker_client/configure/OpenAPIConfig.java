@@ -30,10 +30,10 @@ public class OpenAPIConfig {
 
 		License mitLicense = new License().name("MIT License").url("https://choosealicense.com/licenses/mit/");
 		
-		Info info = new Info().title("Container jobs API")
+		Info info = new Info().title("Container Docker API")
 				.version("1.0.0")
 				.contact(contact)
-				.description("This API exposes endpoints to manage Docker jobs.")
+				.description("This API exposes endpoints to manage Docker containers.")
 				.license(mitLicense);
 		
 		return new OpenAPI().info(info).servers(List.of(devServer, prodServer));
