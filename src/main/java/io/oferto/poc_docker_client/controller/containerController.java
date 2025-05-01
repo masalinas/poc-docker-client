@@ -34,13 +34,13 @@ public class ContainerController {
 		return new ResponseEntity<List<Container>>(result, HttpStatus.OK);			
 	}
 	
-	@Operation(summary = "Submit a container", description = "Submit a container")
+	@Operation(summary = "Run a container", description = "Run a container")
 	@PostMapping	
-	public ResponseEntity<Object> submitContainer(
+	public ResponseEntity<Object> runContainer(
 			@RequestBody ContainerDto containerDto) {		
 		log.debug("Submit a container");
 				
-		Object result = containerService.submitContainer(containerDto);
+		Object result = containerService.runContainer(containerDto);
 				
 		return new ResponseEntity<Object>(result, HttpStatus.OK);			
 	}	

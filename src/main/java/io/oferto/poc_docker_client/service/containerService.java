@@ -77,17 +77,17 @@ public class ContainerService {
 		return null;		
 	}
 	
-	public Object submitContainer(ContainerDto containerDto) {
+	public Object runContainer(ContainerDto containerDto) {
 		Map<String, String> result = new HashMap<>();
 		
 		try {	   
-			// STEP01: pull the image first if not exist and wait for it
+			// STEP01: pull the image if not exist and wait for it
 			dockerClient
 					.pullImageCmd(containerDto.getImageName() + ":" + (containerDto.getImageVersion() != null ? containerDto.getImageVersion() : "latest"))
 		            		.start()
 		            		.awaitCompletion();
 			
-			// STEP012: run the image
+			// STEP02: create docker command
 			HostConfig hostConfig = HostConfig.newHostConfig()
 					.withAutoRemove(containerDto.getWithAutoRemove());
 			
@@ -108,11 +108,26 @@ public class ContainerService {
 				hostConfig.withPortBindings(portBindings);
 			}
 		
+			// configure container resources (cpu an memory)
+			if (containerDto.getContainerResourcesDto() != null) {
+				hostConfig.withCpuCount(containerDto.getContainerResourcesDto().getCpuCount());                // CPU counts
+				
+				if (containerDto.getContainerResourcesDto().getCpuQuota() != null)
+					hostConfig.withCpuQuota(containerDto.getContainerResourcesDto().getCpuQuota() * 1000);     // CPU Quota in %. Example 50% -> 50% of 1 CPU (50000 microseconds of 100000 total)
+				
+				if (containerDto.getContainerResourcesDto().getCpuPeriod() != null)
+					hostConfig.withCpuPeriod(containerDto.getContainerResourcesDto().getCpuPeriod() * 1000);   // CPU Period in ms. Example: 100ms period (standard)
+				
+				if (containerDto.getContainerResourcesDto().getMemory() != null)
+					hostConfig.withMemory(containerDto.getContainerResourcesDto().getMemory() * 1024 * 1024L); // Memory limit in MB. Example: 512MB
+			}
+			
+			// create run docker command to be executed
 	        CreateContainerResponse container = dockerClient
 	        		.createContainerCmd(containerDto.getImageName() + ":" + containerDto.getImageVersion())
 	                .withName(containerDto.getContainerName())                
 	                .withHostConfig(hostConfig)
-	                .withExposedPorts(exposedPorts)	
+	                .withExposedPorts(exposedPorts)
 		            //.withCmd("echo", "Goodbye")
 	                .exec(); 		
 	        

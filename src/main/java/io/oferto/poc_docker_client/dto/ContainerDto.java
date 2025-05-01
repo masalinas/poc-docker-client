@@ -12,4 +12,5 @@ public class ContainerDto {
 	String imageVersion;
 	List<ContainerPortDto> publishPorts = new ArrayList<>();
 	Boolean withAutoRemove = false;
+	ContainerResourcesDto containerResourcesDto;
 }
