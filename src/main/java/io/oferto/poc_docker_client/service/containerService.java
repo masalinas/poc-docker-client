@@ -110,16 +110,16 @@ public class ContainerService {
 		
 			// configure container resources (cpu an memory)
 			if (containerDto.getContainerResourcesDto() != null) {
-				hostConfig.withCpuCount(containerDto.getContainerResourcesDto().getCpuCount());                // CPU counts
+				hostConfig.withCpuCount(containerDto.getContainerResourcesDto().getCpuCount());
+								
+				if (containerDto.getContainerResourcesDto().getCpuPeriod() != null)
+					hostConfig.withCpuPeriod(containerDto.getContainerResourcesDto().getCpuPeriod() * 1000);
 				
 				if (containerDto.getContainerResourcesDto().getCpuQuota() != null)
-					hostConfig.withCpuQuota(containerDto.getContainerResourcesDto().getCpuQuota() * 1000);     // CPU Quota in %. Example 50% -> 50% of 1 CPU (50000 microseconds of 100000 total)
-				
-				if (containerDto.getContainerResourcesDto().getCpuPeriod() != null)
-					hostConfig.withCpuPeriod(containerDto.getContainerResourcesDto().getCpuPeriod() * 1000);   // CPU Period in ms. Example: 100ms period (standard)
+					hostConfig.withCpuQuota(containerDto.getContainerResourcesDto().getCpuQuota() * 1000);
 				
 				if (containerDto.getContainerResourcesDto().getMemory() != null)
-					hostConfig.withMemory(containerDto.getContainerResourcesDto().getMemory() * 1024 * 1024L); // Memory limit in MB. Example: 512MB
+					hostConfig.withMemory(containerDto.getContainerResourcesDto().getMemory() * 1024 * 1024L);
 			}
 			
 			// create run docker command to be executed
