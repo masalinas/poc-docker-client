@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.async.ResultCallback;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.exception.DockerException;
@@ -18,21 +19,19 @@ import com.github.dockerjava.api.model.HostConfig;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import io.oferto.poc_docker_client.configure.DockerClientConfig;
-
 @Slf4j
 @AllArgsConstructor
 @Service
 public class JobService {
-	private final DockerClientConfig dockerConfig;
+	private final DockerClient dockerClient;
 	
 	public List<Container> getJobs() {
 		try {	        
-			return dockerConfig.getDockerClient().listContainersCmd().exec();
+			return dockerClient.listContainersCmd().exec();
         } catch (DockerException exception) {
         	log.error(exception.getStackTrace().toString());          
         } catch (Exception exception) {
-        	log.error("Unexpected error xxx: " + exception.getMessage());
+        	log.error("Unexpected error: " + exception.getMessage());
         }
 		
 		return null;		
@@ -43,13 +42,13 @@ public class JobService {
 		
 		try {
     		// STEP01: pull image
-			dockerConfig.getDockerClient()
+			dockerClient
 				.pullImageCmd(imageName)
             		.start()
             		.awaitCompletion();
 	        
 			// STEP02: create job from image
-	        CreateContainerResponse container = dockerConfig.getDockerClient()
+	        CreateContainerResponse container = dockerClient
 	        	.createContainerCmd(imageName)
 	                .withName(jobName)
 	                .withExposedPorts(new ExposedPort(exposedPort))
@@ -60,7 +59,7 @@ public class JobService {
 	                .exec(); 		
 	        
 	        // STEP03: start the job just created
-	        dockerConfig.getDockerClient()
+	        dockerClient
 	        	.startContainerCmd(container.getId())
 	        	.exec();
 	        
@@ -82,7 +81,7 @@ public class JobService {
 		StringBuilder logs = new StringBuilder();
 		
 		try {	     
-			dockerConfig.getDockerClient().logContainerCmd(jobId)
+			dockerClient.logContainerCmd(jobId)
 				.withStdOut(true)
 	            .withStdErr(true)
 	            .withTailAll()
@@ -108,7 +107,7 @@ public class JobService {
 	
 	public void removeJob(String jobId) {		
 		try {	     
-			dockerConfig.getDockerClient().removeContainerCmd(jobId)
+			dockerClient.removeContainerCmd(jobId)
 				.withForce(true)
 				.exec();   
         } catch (DockerException exception) {

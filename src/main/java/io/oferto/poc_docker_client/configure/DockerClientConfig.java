@@ -28,7 +28,7 @@ public class DockerClientConfig {
                 //.withDockerTlsVerify(true)
     		    .withRegistryUsername("gsdpi")
     		    .withRegistryPassword("!Thingtrack2010")
-    		    .withRegistryEmail("UO34525@uniovi.es")
+    		    .withRegistryEmail("uo34525@uniovi.es")
     		    .withRegistryUrl("https://index.docker.io/v1/")
     		.build();
 

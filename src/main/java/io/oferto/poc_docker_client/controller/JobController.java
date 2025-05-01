@@ -22,7 +22,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 public class JobController {
 	private final JobService jobService;
 	
-	@Operation(summary = "Get all jobs", description = "Returns all containers created")
+	@Operation(summary = "Get all jobs", description = "Returns all jobs created")
 	@GetMapping	
 	public ResponseEntity<List<Container>> getContainers() {
 		log.debug("getContainers job");
@@ -50,7 +50,7 @@ public class JobController {
 		return new ResponseEntity<Object>(result, HttpStatus.OK);			
 	}	
 	
-	@Operation(summary = "Get all container logs", description = "Get all container logs")
+	@Operation(summary = "Get all job logs", description = "Get all job logs")
 	@GetMapping("/{jobId}")	
 	public ResponseEntity<String> getLogs(
 			@Parameter(description = "The job id")
