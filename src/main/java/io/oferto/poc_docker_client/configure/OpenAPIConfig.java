@@ -24,8 +24,8 @@ public class OpenAPIConfig {
 		prodServer.setDescription("Server URL in Production environment");
 
 		Contact contact = new Contact();
-		contact.setEmail("uo34525@uniovi.es");
-		contact.setName("Miguel Salinas Gancedo");
+		contact.setEmail("masalinas.gancedo@gmail.com");
+		contact.setName("Miguel Ángel Salinas Gancedo");
 		contact.setUrl("http://isa.uniovi.es/GSDPI/");
 
 		License mitLicense = new License().name("MIT License").url("https://choosealicense.com/licenses/mit/");
