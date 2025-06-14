@@ -123,7 +123,7 @@ public class ContainerService {
 			}
 			
 			// create run docker command to be executed
-	        CreateContainerResponse container = dockerClient
+	        CreateContainerResponse containerResponse = dockerClient
 	        		.createContainerCmd(containerDto.getImageName() + ":" + containerDto.getImageVersion())
 	                .withName(containerDto.getContainerName())                
 	                .withHostConfig(hostConfig)
@@ -133,10 +133,10 @@ public class ContainerService {
 	        
 	        // STEP03: start the container just created
 	        dockerClient
-	        	.startContainerCmd(container.getId())
+	        	.startContainerCmd(containerResponse.getId())
 	        	.exec();
 	        
-            result.put("message", "Container with id " + container.getId() + " created");
+            result.put("message", "Container with id " + containerResponse.getId() + " created");
         } catch (DockerException exception) {
         	log.error(exception.getStackTrace().toString());
             
